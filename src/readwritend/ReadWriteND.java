@@ -92,7 +92,7 @@ public class ReadWriteND {
             String naujasSarasas = sarasas.toString();
             System.out.println("-----4-----");
             System.out.println(naujasSarasas);
-            // irasau i nauaj faila
+            // irasau i nauja faila
             bw.write(naujasSarasas);
         } catch (IOException ex) {
             System.out.println("Error reading file: " + ex.getMessage());
