@@ -16,7 +16,7 @@ public class ReadWriteND {
 
     public static void main(String[] args) {
         // vieta kur saugau visus triju failu zodzius
-        String list = "";
+        List<String> list = new ArrayList();
         try (
                 // perskaitau tris failus
                 FileInputStream fis = new FileInputStream("a.txt");
@@ -28,32 +28,42 @@ public class ReadWriteND {
                 BufferedReader br = new BufferedReader(fr);
                 BufferedReader br2 = new BufferedReader(fr2);
                 BufferedReader br3 = new BufferedReader(fr3);) {
-            
+
             // vieta kur saugau po viena eilute
-            String s;
-            String s2;
-            String s3;
+            String str;
+            String str2;
+            String str3;
+            String[] parts;
             // perskaitau pirma faila po viena eilute
-            while ((s = br.readLine()) != null) {
-                System.out.print(s);
-                // kiekviena eilute pridedu i bendra list'a
-                list += s;
+            while ((str = br.readLine()) != null) {
+                System.out.print(str);
+                // kiekviena eilute skaldau žodžiais ir pridedu i bendra list'a                        
+                System.out.println(" ");
+                for (String s : str.split(" ")) {
+                    list.add(s);
+                }
             }
             System.out.println(" ");
-            
+
             // perskaitau antra faila po viena eilute
-            while ((s2 = br2.readLine()) != null) {
-                System.out.print(s2);
-                // kiekviena eilute pridedu i bendra list'a
-                list += s2;
+            while ((str2 = br2.readLine()) != null) {
+                System.out.print(str2);
+                // kiekviena eilute skaldau žodžiais ir pridedu i bendra list'a                        
+                System.out.println(" ");
+                for (String s2 : str2.split(" ")) {
+                    list.add(s2);
+                }
             }
             System.out.println(" ");
-            
+
             // perskaitau trecia faila po viena eilute
-            while ((s3 = br3.readLine()) != null) {
-                System.out.print(s3);
-                // kiekviena eilute pridedu i bendra list'a
-                list += s3;
+            while ((str3 = br3.readLine()) != null) {
+                System.out.print(str3);
+                // kiekviena eilute skaldau žodžiais ir pridedu i bendra list'a                        
+                System.out.println(" ");
+                for (String s3 : str3.split(" ")) {
+                    list.add(s3);
+                }
             }
             System.out.println(" ");
         } catch (IOException ex) {
@@ -61,37 +71,30 @@ public class ReadWriteND {
         }
         System.out.println("-----1-----");
         System.out.print(list);
-
-        // zodziu skaldymas su tarpais
-        String[] parts = list.split(" ");
-        System.out.println(" ");
-        List<String> sarasas = new ArrayList();
-        for (String part : parts) {
-            sarasas.add(part);
-        }
-
         System.out.println("-----2-----");
-        System.out.println(sarasas);
-        
-        // saraso rusiavimas nuo ilgiausio iki trumpiausio
-        sarasas.sort((s1, s2) -> s2.length() - s1.length());
+
+//         saraso rusiavimas nuo ilgiausio iki trumpiausio
+        list.sort((s1, s2) -> s2.length() - s1.length());
         System.out.println("-----3-----");
-        System.out.println(sarasas);
-        
-        // pradedu irasyma i nauja faila
+        System.out.println(list);
+
+//         pradedu irasyma i nauja faila
         try (
                 FileOutputStream fos = new FileOutputStream("d.txt");
                 Writer fw = new OutputStreamWriter(fos, "UTF-8");
                 BufferedWriter bw = new BufferedWriter(fw);) {
-            // lista verciu i String, nes kazkodel List<String> nenori irasineti...
-            String naujasSarasas = sarasas.toString();
+
             System.out.println("-----4-----");
-            System.out.println(naujasSarasas);
             // irasau i nauja faila
-            bw.write(naujasSarasas);
+            for (int i = 0; i < list.size(); i++) {
+                bw.write(list.get(i));
+                // atskiriam zodzius
+                if (i < list.size() - 1) {
+                    bw.write(", ");
+                }
+            }
         } catch (IOException ex) {
             System.out.println("Error reading file: " + ex.getMessage());
         }
-
     }
 }
